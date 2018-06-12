@@ -1,0 +1,2 @@
+cola(function (model) {
+});

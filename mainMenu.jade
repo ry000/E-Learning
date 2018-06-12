@@ -1,0 +1,22 @@
+extends /_page
+append head
+    link(rel="stylesheet", type="text/css", href="E-Learning/mainMenu.less")
+
+block body
+    //menu菜单项
+    box.header
+        .item.logo
+            img.ui.mini.image(src="resources/images/logo.png")
+            span E-Learning考试系统
+    v-box.xy-wrap(style="width:100%")
+        flex-box
+            h-box.content(style="width: 90%")
+                box(style="width: 200px").xy-left.cont_left
+                    v-box
+                        flex-box.treeBox
+                            c-tree#homemenuTree
+                flex-box.conten_ritht
+                    c-iframe(id="changeIframe" )
+
+append scripts
+    script(src="E-Learning/mainMenu.js")

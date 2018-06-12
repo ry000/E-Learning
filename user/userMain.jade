@@ -1,0 +1,15 @@
+extends /_page
+block body
+    c-tab#mainTab(height="100%")
+        nav
+            tabs
+                tab.active(caption=ll.l("用户添加") name="userNew")
+                tab(caption=ll.l("用户查询") name="userSearch")
+        contents
+            content.active(name="userNew")
+                c-subview(height="100%" url="E-Learning/user/userNew.html" jsUrl="$")
+            content(name="userSearch")
+                c-subview(height="100%" url="E-Learning/user/userSearch.html" jsUrl="$")
+append scripts
+    script(src="E-Learning/user/userMain.js")
+

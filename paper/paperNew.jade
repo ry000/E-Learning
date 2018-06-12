@@ -1,0 +1,57 @@
+v-box
+    flex-box
+        .content.block-layout(style="overflow: auto")
+            c-panel(caption=ll.l("新增试卷"))
+                c-form(c-bind="paperNew" dataType="PaperNew")
+                    fields.cols-3
+                        field(property="paperID" readOnly="true")
+                            label 试卷ID
+                            c-input
+                        field(property="paperName")
+                            label 试卷名称
+                            c-input
+                        field(property="paperSubject")
+                            label 科目
+                            c-dropdown(valueProperty="key" textProperty="name" c-items="subjectname")
+                    fields
+                        field(property="paperQuestions" readOnly="true")
+                            label 关联试题
+                            c-input
+                    fields.cols-3
+                        field(property="paperScore" readOnly="true")
+                            label 分数
+                            c-input
+                        field(property="paperQuantity" readOnly="true")
+                            label 题目数量
+                            c-input
+                        field(property="paperTime")
+                            label 考试用时
+                            c-input
+                    fields.cols-3
+                        field
+                        field
+                        field
+                            c-button(caption="试卷预览")
+                            c-button(caption="保存")
+            c-panel(caption=ll.l("查询条件"))
+                c-form(c-bind="paperNew" dataType="PaperNew")
+                    fields.cols-3
+                        field(property="questionID")
+                            label 题目ID
+                            c-input
+                        field(property="questionType")
+                            label 题型
+                            c-dropdown(valueProperty="key" textProperty="name" c-items="typename")
+                        field
+                            c-button(caption="查询")
+            c-panel(caption=ll.l("试题列表"))
+                .content
+                    c-table(bind="questionSearchResult" dataType="QuestionSearchResult")
+                        template(name="editType")
+                            c-dropdown(width="100%" bind="$default" items="{{editTypes}}" valueProperty="name" textProperty="name" )
+                        column(property="questionStates" caption="状态" sortable="true")
+                        column(property="questionID" caption="题目ID" sortable="true")
+                        column(property="questionType" caption="题型" sortable="true")
+                        column(property="questionSubject" caption="题目" sortable="true")
+                        column(property="questionScore" caption="分数" sortable="true")
+                        column(caption="添加/删除" align="center")

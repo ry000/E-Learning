@@ -1,0 +1,15 @@
+extends /_page
+block body
+    c-tab#mainTab(height="100%")
+        nav
+            tabs
+                tab.active(caption=ll.l("新增试题") name="questionNew")
+                tab(caption=ll.l("试题查询") name="questionSearch")
+        contents
+            content.active(name="questionNew")
+                c-subview(height="100%" url="E-Learning/question/questionNew.html" jsUrl="$")
+            content(name="questionSearch")
+                c-subview(height="100%" url="E-Learning/question/questionSearch.html" jsUrl="$")
+append scripts
+    script(src="E-Learning/question/questionMain.js")
+

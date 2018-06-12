@@ -1,0 +1,20 @@
+mainMenu：页面整体布局框架
+
+user：用户管理相关页面（用户管理最后做）
+	
+question：试题管理相关页面
+	questionMain：试题管理选项卡组织
+	questionNew：“新增试题”选项卡下内容
+	questionSearch：“试题查询”选项卡下内容
+
+paper：试卷管理相关页面
+	paperMain：试卷管理选项卡组织
+	paperNew：“新增试卷”选项卡下内容
+	paperSearch：“试卷查询”选项卡下内容
+
+exam：考试管理相关页面
+	examMain：试卷管理选项卡组织
+	examAll：“所有试卷”选项卡下内容
+	examSearch：“试卷查询”选项卡下内容
+
+还需考试相关的“试卷组织”和“查看成绩表格”两个页面设计

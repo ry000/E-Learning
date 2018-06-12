@@ -1,0 +1,53 @@
+v-box
+    flex-box
+        .content.block-layout(style="overflow: auto")
+            c-panel(caption=ll.l("新增试题"))
+                c-form(c-bind="questionNew" dataType="QuestionNew")
+                    fields.cols-3
+                        field(property="questionID" readOnly="true")
+                            label 题目ID
+                            c-input
+                        field(property="questionType")
+                            label 题型
+                            c-dropdown(valueProperty="key" textProperty="name" c-items="typename")
+                        field(property="questionSubject")
+                            label 科目
+                            c-dropdown(valueProperty="key" textProperty="name" c-items="subjectname")
+                    fields.cols-1
+                        field(property="questionContent")
+                            label 题干
+                            c-input
+                    fields.cols-1
+                        field
+                            label 选项
+                    fields.cols-1
+                        field(property="A")
+                            label A
+                            c-input
+                    fields.cols-1
+                        field(property="B")
+                            label B
+                            c-input
+                    fields.cols-1
+                        field(property="C")
+                            label C
+                            c-input
+                    fields.cols-1
+                        field(property="D")
+                            label D
+                            c-input
+                    fields.cols-1
+                        field(property="E")
+                            label E
+                            c-input
+                    fields.cols-1
+                        field(property="questionAnswer")
+                            label 答案
+                            c-radio-group(items="{{choice}}")
+                    fields.cols-3
+                        field(property="questionScore")
+                            label 分值
+                            c-input
+                        field
+                        field
+                            c-button(caption="保存")

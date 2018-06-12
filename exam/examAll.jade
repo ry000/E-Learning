@@ -1,0 +1,15 @@
+v-box
+    flex-box
+        .content.block-layout(style="overflow: auto")
+            c-panel(caption=ll.l("所有试卷"))
+                .content
+                    c-table(bind="examAll" dataType="ExamAll")
+                        template(name="editType")
+                            c-dropdown(width="100%" bind="$default" items="{{editTypes}}" valueProperty="name" textProperty="name" )
+                        column(property="paperID" caption="试卷ID" sortable="true")
+                        column(property="paperName" caption="试卷名称" sortable="true")
+                        column(property="paperSubject" caption="科目" sortable="true")
+                        column(property="paperQuantity" caption="题目数量" sortable="true")
+                        column(property="paperScore" caption="分数" sortable="true")
+                        column(caption="参加考试" align="center")
+                        column(caption="查看已完成成绩" align="center")

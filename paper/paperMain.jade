@@ -1,0 +1,15 @@
+extends /_page
+block body
+    c-tab#mainTab(height="100%")
+        nav
+            tabs
+                tab.active(caption=ll.l("新增试卷") name="paperNew")
+                tab(caption=ll.l("试卷查询") name="paperSearch")
+        contents
+            content.active(name="paperNew")
+                c-subview(height="100%" url="E-Learning/paper/paperNew.html" jsUrl="$")
+            content(name="paperSearch")
+                c-subview(height="100%" url="E-Learning/paper/paperSearch.html" jsUrl="$")
+append scripts
+    script(src="E-Learning/paper/paperMain.js")
+
