@@ -2,29 +2,38 @@ v-box
     flex-box
         .content.block-layout(style="overflow: auto")
             c-panel(caption=ll.l("查询条件"))
-                c-form(c-bind="questionSearch" dataType="QuestionSearch")
-                    fields.cols-4
-                        field(property="questionID")
-                            label 题目ID
-                            c-input
-                        field(property="questionType")
-                            label 题型
-                            c-dropdown(valueProperty="key" textProperty="name" c-items="typename")
-                        field(property="questionSubject")
-                            label 科目
-                            c-dropdown(valueProperty="key" textProperty="name" c-items="subjectname")
-                        field
-                            c-button(caption="查询")
+                .content
+                    c-form#queryForm(c-bind="condition")
+                        fields.cols-3
+                            field(property="questionContent")
+                                label 题干
+                                c-input
+                            field(property="questionType")
+                                label 题型
+                                c-dropdown(valueProperty="key" textProperty="name" c-items="typename")
+                            field(property="questionSubject")
+                                label 科目
+                                c-dropdown(valueProperty="key" textProperty="name" c-items="subjectname")
+                            field
+                            field
+                            field
+                                c-button(caption="查询" click="queryQuestion")
             c-panel(caption=ll.l("查询结果"))
                 .content
-                    c-table(bind="questionSearchResult" dataType="QuestionSearchResult")
-                        template(name="editType")
-                            c-dropdown(width="100%" bind="$default" items="{{editTypes}}" valueProperty="name" textProperty="name" )
+                    c-table(height="100%" sortMode="local" bind="questionSearchResult")
+                        column($type="select")
                         column(property="questionID" caption="题目ID" sortable="true")
-                        column(property="questionType" caption="题型" sortable="true")
-                        column(property="questionSubject" caption="科目" sortable="true" )
+                        column(property="questionType" caption="题型" sortable="true" valueProperty="key" textProperty="name" c-items="typename")
+                        column(property="questionSubject" caption="科目" sortable="true" valueProperty="key" textProperty="name" c-items="subjectname")
                         column(property="questionContent" caption="题干" sortable="true" )
+                        column(property="questionScore" caption="分数" sortable="true" )
                         column(property="isValid" caption="是否有效" sortable="true" )
-                        column(caption="查看" align="center")
-                        column(caption="修改" align="center")
-                        column(caption="删除/还原" align="center")
+    box
+        div
+            c-menu.bordered
+                a.primary(caption="查看" click="checkQuestion")
+                a.primary(caption="修改" click="modifyQuestion")
+                a.primary(caption="删除/还原" click="deleteQuestion")
+                .right.menu
+                    c-pager(bind="questionSearchResult")
+

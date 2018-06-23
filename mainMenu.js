@@ -33,7 +33,6 @@ cola(function (model) {
                 }
             },
             itemClick: function (self, arg) {
-                debugger;
                 var data = arg.item.get("data").toJSON();
 
                 if (data.path) {

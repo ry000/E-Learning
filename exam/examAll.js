@@ -1,61 +1,65 @@
 cola(function (model) {
-    debugger
-
     model.dataType({
-        name: "ExamAll",
-        properties: [
-            {
-                property: "paperID"
-            },
-            {
-                property: "paperName"
-            },
-            {
-                property: "paperSubject"
-            },
+        name: "exam",
+        properties: {
+            paperID: {caption: "试卷ID"},
+            paperName: {caption: "试卷名称"},
+            subject: {caption: "科目"},
+            totalScore: {caption: "总分"},
+        }
+    });
 
-            {
-                property: "paperQuantity",
-            },
-            {
-                property: "paperScore",
-            }
-        ]
-    })
+    model.set("subjectname",[
+        {
+            key:"",
+            name:"所有科目"
+        },
+        {
+            key:"01",
+            name:"数学"
+        },
+        {
+            key:"02",
+            name:"英语"
+        },
+    ]);
 
-    model.describe("examAll","ExamAll"); //entity person和数据类型Person绑定
     model.set("examAll",[]);
     model.set("examAll", {
         paperID: "",
         paperName: "",
-        paperSubject: "",
-        paperQuantity: "",
-        paperScore: ""
+        subject: "",
+        totalScore: ""
     });
+
+    model.describe("examAll", {
+        dataType: "exam",
+        provider: {
+            url: "controller/demo/paper/paper/queryPaper?from={{$from}}&limit={{$limit}}",
+            pageSize: 10, method: "POST",
+            ajaxOptions: {contentType: "application/json", sendJson: true}
+        }
+    });
+    model.describe("examAll","exam");
 
     model.action({
         test: function () {
+            var aaa = model.get("examAll").current;
+            debugger
             cola.alert("方法被调用");
         },
 
-        createUser:function () {
-            var user = model.get("user");
-            if (user) {
-                cola.util.update("test/createUser", user)
-                    .then(function(){
-                        debugger
-                        cola.NotifyTipManager.info({
-                            message: "系统消息", description: "保存成功！", showDuration: 5000
-                        });
-                        model.set("user", {});
-                        //model.flush("entity1s");
-                    })
-                    .fail(function(){
-                        alert("test");
-                        debugger
-                        if (result === "NO_DATA") cola.alert("数据没有改变");
-                    })
-            }
-        }
+        queryPaper: function () {
+            model.flush("examAll");
+        },
+
+        takeExam: function () {
+            var exam = model.get("examAll").current;
+            var examId = exam.get("paperId");
+            debugger
+            window.open("E-Learning/exam/takeExam.html?paperId="+examId);
+        },
     })
+
+    model.action.queryPaper();
 })

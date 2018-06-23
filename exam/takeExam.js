@@ -7,16 +7,13 @@ cola(function (model) {
                 property: "questionID"
             },
             {
-                property: "questionType",
-                validators: ["required"]
+                property: "questionType"
             },
             {
-                property: "questionSubject",
-                validators: ["required"]
+                property: "questionSubject"
             },
             {
-                property: "questionContent",
-                validators: ["required"]
+                property: "questionContent"
             },
             {
                 property: "choiceA",
@@ -106,21 +103,7 @@ cola(function (model) {
             cola.alert("方法被调用");
         },
 
-        createQuestion:function () {
-            var question = model.get("questionNew");
-            if (question) {
-                debugger
-                cola.util.update("controller/demo/E_learning/question/createQuestion", question)
-                    .then(function(){
-                        cola.NotifyTipManager.info({
-                            message: "系统消息", description: "保存成功！", showDuration: 5000
-                        });
-                        model.set("questionNew", {});
-                    })
-                    .fail(function(){
-                        if (result === "NO_DATA") cola.alert("数据没有改变");
-                    })
-            }
-        },
+
     })
+
 })

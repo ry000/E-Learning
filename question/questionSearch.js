@@ -1,24 +1,25 @@
 cola(function (model) {
-    debugger
-
     model.dataType({
-        name: "QuestionSearch",
-        properties: [
-            {
-                property: "questionID"
-            },
-            {
-                property: "questionType"
-            },
-            {
-                property: "questionSubject"
-            }
-        ]
-    })
+        name: "question",
+        properties: {
+            questionID: {caption: "试题ID"},
+            questionType: {caption: "题型"},
+            questionSubject: {caption: "科目"},
+            questionContent: {caption: "题干"},
+            choiceA: {caption: "A"},
+            choiceB:{caption:"B"},
+            choiceC: {caption: "C"},
+            choiceD:{caption:"D"},
+            choiceE:{caption:"E"},
+            questionAnswer: {caption: "答案"},
+            questionScore:{caption:"分值"},
+            isValid:{caption:"是否有效"},
+        }
+    });
 
     model.set("typename",[
         {
-            key:"00",
+            key:"",
             name:"所有题型"
         },
         {
@@ -27,9 +28,10 @@ cola(function (model) {
         }
     ]);
 
+
     model.set("subjectname",[
         {
-            key:"00",
+            key:"",
             name:"所有科目"
         },
         {
@@ -42,68 +44,66 @@ cola(function (model) {
         },
     ]);
 
-    model.dataType({
-        name: "QuestionSearchResult",
-        properties: [
-            {
-                property: "questionID"
-            },
-            {
-                property: "questionType"
-            },
-            {
-                property: "questionSubject"
-            },
-            {
-                property: "questionContent"
-            },
-            {
-                property: "isValid"
-            }
-        ]
-    })
-
-    model.describe("questionSearch","QuestionSearch");
-    model.set("questionSearch",[]);
-    model.set("questionSearch", {
-        questionID: "",
-        questionType: "00",
-        questionSubject: "00"
-    });
-
-    model.describe("questionSearchResult","QuestionSearchResult");
-    model.set("questionSearchResult",[]);
-    model.set("questionSearchResult", {
-        questionID: "",
+    model.describe("condition","question");
+    model.set("condition",{});
+    model.set("condition", {
         questionType: "",
         questionSubject: "",
         questionContent: "",
-        isValid: ""
     });
+
+    model.set("questionSearchResult",{});
+
+    model.describe("questionSearchResult", {
+        dataType: "question",
+        provider: {
+            url: "controller/demo/E_learning/question/listQuestion?from={{$from}}&limit={{$limit}}",
+            pageSize: 10, method: "POST",
+            parameter: "{{condition}}",
+            ajaxOptions: {contentType: "application/json", sendJson: true}
+        }
+    });
+
+    model.describe("questionSearchResult","question");
 
     model.action({
         test: function () {
             cola.alert("方法被调用");
         },
 
-        createUser:function () {
-            var user = model.get("user");
-            if (user) {
-                cola.util.update("test/createUser", user)
+        queryQuestion: function () {
+            model.flush("questionSearchResult");
+        },
+
+        checkQuestion: function () {
+            var question = model.get("questionSearchResult").current;
+            var questionId = question.get("questionId");
+            window.open("E-Learning/question/questionShow.html?questionId="+questionId);
+        },
+
+        modifyQuestion: function () {
+            var question = model.get("questionSearchResult").current;
+            var questionId = question.get("questionId");
+            window.open("E-Learning/question/questionModify.html?questionId="+questionId);
+        },
+
+        deleteQuestion:function () {
+            var question = model.get("questionSearchResult").current;
+            if (question) {
+                debugger
+                cola.util.update("controller/demo/E_learning/question/deleteQuestion", question)
                     .then(function(){
-                        debugger
                         cola.NotifyTipManager.info({
                             message: "系统消息", description: "保存成功！", showDuration: 5000
                         });
-                        model.set("user", {});
-                        //model.flush("entity1s");
+                        model.set("questionNew", {});
                     })
                     .fail(function(){
-                        alert("test");
-                        debugger
                         if (result === "NO_DATA") cola.alert("数据没有改变");
                     })
             }
-        }
+        },
     })
+
+    model.action.queryQuestion();
 })

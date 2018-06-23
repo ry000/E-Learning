@@ -1,6 +1,4 @@
 cola(function (model) {
-    debugger
-
     model.dataType({
         name: "PaperSearch",
         properties: [

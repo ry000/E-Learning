@@ -7,16 +7,13 @@ cola(function (model) {
                 property: "questionID"
             },
             {
-                property: "questionType",
-                validators: ["required"]
+                property: "questionType"
             },
             {
-                property: "questionSubject",
-                validators: ["required"]
+                property: "questionSubject"
             },
             {
-                property: "questionContent",
-                validators: ["required"]
+                property: "questionContent"
             },
             {
                 property: "choiceA",
@@ -34,12 +31,10 @@ cola(function (model) {
                 property: "choiceE",
             },
             {
-                property: "questionAnswer",
-                validators: ["required"]
+                property: "questionAnswer"
             },
             {
-                property: "questionScore",
-                validators: ["required"]
+                property: "questionScore"
             },
         ]
     })
@@ -102,25 +97,36 @@ cola(function (model) {
     });
 
     model.action({
-        test: function () {
-            cola.alert("方法被调用");
-        },
-
-        createQuestion:function () {
-            var question = model.get("questionNew");
-            if (question) {
-                debugger
-                cola.util.update("controller/demo/E_learning/question/createQuestion", question)
-                    .then(function(){
-                        cola.NotifyTipManager.info({
-                            message: "系统消息", description: "保存成功！", showDuration: 5000
-                        });
-                        model.set("questionNew", {});
-                    })
-                    .fail(function(){
-                        if (result === "NO_DATA") cola.alert("数据没有改变");
-                    })
-            }
-        },
+        initial:function(){
+            var params = cola.util.queryParams();
+            var questionId = params.questionId;
+            $.ajax({
+                url: "controller/demo/E_learning/question/findbyQuestionId",
+                type: "POST",
+                data: {
+                    subjectId:questionId
+                },
+                error: function () {
+                    cola.alert("操作失败")
+                },
+                success: function (data) {
+                    model.set("questionNew", {
+                        questionID: data.questionId,
+                        questionType: data.questionType,
+                        questionSubject: data.questionSubject,
+                        questionContent: data.questionContent,
+                        choiceA: data.choiceA,
+                        choiceB: data.choiceB,
+                        choiceC: data.choiceC,
+                        choiceD: data.choiceD,
+                        choiceE: data.choiceE,
+                        questionAnswer: data.questionAnswer,
+                        questionScore: data.questionScore
+                    });
+                }
+            })
+         }
     })
+
+    model.action.initial();
 })

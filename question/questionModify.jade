@@ -1,0 +1,57 @@
+extends /_page
+block body
+    v-box
+        flex-box
+            .content.block-layout(style="overflow: auto")
+                c-panel(caption=ll.l("新增试题"))
+                    c-form(c-bind="questionNew")
+                        fields.cols-3
+                            field(property="questionID" readOnly="true")
+                                label 题目ID
+                                c-input
+                            field(property="questionType")
+                                label 题型
+                                c-dropdown(valueProperty="key" textProperty="name" c-items="typename")
+                            field(property="questionSubject")
+                                label 科目
+                                c-dropdown(valueProperty="key" textProperty="name" c-items="subjectname")
+                        fields.cols-1
+                            field(property="questionContent")
+                                label 题干
+                                c-textarea(rows="3")
+                        fields.cols-1
+                            field
+                                label 选项
+                        fields.cols-1
+                            field(property="choiceA")
+                                label A
+                                c-input
+                        fields.cols-1
+                            field(property="choiceB")
+                                label B
+                                c-input
+                        fields.cols-1
+                            field(property="choiceC")
+                                label C
+                                c-input
+                        fields.cols-1
+                            field(property="choiceD")
+                                label D
+                                c-input
+                        fields.cols-1
+                            field(property="choiceE")
+                                label E
+                                c-input
+                        fields.cols-1
+                            field(property="questionAnswer")
+                                label 答案
+                                c-radio-group(items="{{choice}}")
+                        fields.cols-3
+                            field(property="questionScore")
+                                label 分值
+                                c-input
+                            field
+                            field
+                                c-button(caption="保存", click="createQuestion")
+append scripts
+    script(src="E-Learning/question/questionModify.js")

@@ -34,24 +34,25 @@ v-box
                             c-button(caption="试卷预览")
                             c-button(caption="保存")
             c-panel(caption=ll.l("查询条件"))
-                c-form(c-bind="paperNew" dataType="PaperNew")
+                c-form(c-bind="condition")
                     fields.cols-3
-                        field(property="questionID")
-                            label 题目ID
-                            c-input
                         field(property="questionType")
                             label 题型
                             c-dropdown(valueProperty="key" textProperty="name" c-items="typename")
+                        field(property="questionSubject")
+                            label 科目
+                            c-dropdown(valueProperty="key" textProperty="name" c-items="subjectname")
                         field
-                            c-button(caption="查询")
+                            c-button(caption="查询" click="queryQuestion")
             c-panel(caption=ll.l("试题列表"))
                 .content
-                    c-table(bind="questionSearchResult" dataType="QuestionSearchResult")
-                        template(name="editType")
-                            c-dropdown(width="100%" bind="$default" items="{{editTypes}}" valueProperty="name" textProperty="name" )
+                    c-table(height="100%" sortMode="local" bind="questionSearchResult")
                         column(property="questionStates" caption="状态" sortable="true")
                         column(property="questionID" caption="题目ID" sortable="true")
                         column(property="questionType" caption="题型" sortable="true")
-                        column(property="questionSubject" caption="题目" sortable="true")
+                        column(property="questionSubject" caption="科目" sortable="true")
+                        column(property="questionContent" caption="题干" sortable="true")
                         column(property="questionScore" caption="分数" sortable="true")
                         column(caption="添加/删除" align="center")
+                            template
+                                c-button(caption="tijan")

@@ -1,24 +1,17 @@
 cola(function (model) {
-    debugger
-
     model.dataType({
-        name: "PaperSearch",
-        properties: [
-            {
-                property: "paperID"
-            },
-            {
-                property: "paperName"
-            },
-            {
-                property: "paperSubject"
-            }
-        ]
-    })
+        name: "exam",
+        properties: {
+            paperID: {caption: "试卷ID"},
+            paperName: {caption: "试卷名称"},
+            subject: {caption: "科目"},
+            totalScore: {caption: "总分"},
+        }
+    });
 
     model.set("subjectname",[
         {
-            key:"00",
+            key:"",
             name:"所有科目"
         },
         {
@@ -31,43 +24,30 @@ cola(function (model) {
         },
     ]);
 
-    model.dataType({
-        name: "PaperSearchResult",
-        properties: [
-            {
-                property: "paperID"
-            },
-            {
-                property: "paperName"
-            },
-            {
-                property: "paperSubject"
-            },
-            {
-                property: "paperQuantity"
-            },
-            {
-                property: "paperScore"
-            }
-        ]
-    })
-
-    model.describe("paperSearch","PaperSearch"); //entity person和数据类型Person绑定
-    model.set("paperSearch",[]);
-    model.set("paperSearch", {
-        paperID: "",
-        paperName: "",
-        paperSubject: ""
-    });
-
-    model.describe("paperSearchResult","PaperSearchResult");
+    model.describe("paperSearchResult","exam");
     model.set("paperSearchResult",[]);
     model.set("paperSearchResult", {
         paperID: "",
         paperName: "",
-        paperSubject: "",
-        paperQuantity: "",
-        paperScore: ""
+        subject: "",
+        totalScore: ""
+    });
+
+    model.describe("condition","exam");
+    model.set("condition",{});
+    model.set("condition", {
+        paperName: "",
+        subject: "",
+    });
+
+    model.describe("paperSearchResult", {
+        dataType: "exam",
+        provider: {
+            url: "controller/demo/paper/paper/queryPaper?from={{$from}}&limit={{$limit}}",
+            pageSize: 10, method: "POST",
+            parameter: "{{condition}}",
+            ajaxOptions: {contentType: "application/json", sendJson: true}
+        }
     });
 
     model.action({
@@ -75,24 +55,10 @@ cola(function (model) {
             cola.alert("方法被调用");
         },
 
-        createUser:function () {
-            var user = model.get("user");
-            if (user) {
-                cola.util.update("test/createUser", user)
-                    .then(function(){
-                        debugger
-                        cola.NotifyTipManager.info({
-                            message: "系统消息", description: "保存成功！", showDuration: 5000
-                        });
-                        model.set("user", {});
-                        //model.flush("entity1s");
-                    })
-                    .fail(function(){
-                        alert("test");
-                        debugger
-                        if (result === "NO_DATA") cola.alert("数据没有改变");
-                    })
-            }
-        }
+        queryPaper: function () {
+            model.flush("paperSearchResult");
+        },
     })
+
+    model.action.queryPaper();
 })
